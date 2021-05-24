@@ -46,16 +46,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button btn= findViewById(R.id.btn);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DatabaseReference firebaseDb= FirebaseDatabase.getInstance("https://smu-se5-camping-default-rtdb.firebaseio.com/").getReference();
-                FirebaseAuth firebaseAuth= FirebaseAuth.getInstance();
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                System.out.println(user);
-            }
-        });
+
         //AppDatabase db = AppDatabase.getInstance(this);
         /*
         Button btn = (Button) findViewById(R.id.db_btn);

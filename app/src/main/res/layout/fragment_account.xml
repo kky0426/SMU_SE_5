@@ -1,73 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".AccountFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        tools:context=".AccountFragment">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="My 페이지"
-            android:textStyle="bold"
-            android:textSize="45dp"
-            android:padding="20dp"
-            android:gravity="center"/>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="이용한 캠핑장"
-            android:gravity="center"
-            android:padding="10dp"
-            android:layout_margin="15dp"
-            android:id="@+id/used_camp"/>
+            android:orientation="vertical">
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="예약 조회"
-            android:gravity="center"
-            android:padding="10dp"
-            android:layout_margin="15dp"
-            android:id="@+id/confrim_reserve_button"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="20dp"
+                android:text="My 페이지"
+                android:textSize="45dp"
+                android:textStyle="bold" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="사용 가능한 쿠폰"
-            android:gravity="center"
-            android:padding="10dp"
-            android:layout_margin="15dp"/>
+            <Button
+                android:id="@+id/used_camp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="이용한 캠핑장" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="캠핑장 정보 업로드"
-            android:gravity="center"
-            android:padding="10dp"
-            android:id="@+id/upload_button"
-            android:layout_margin="15dp"/>
+            <Button
+                android:id="@+id/confrim_reserve_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="예약 조회" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="등록한 캠핑장"
-            android:gravity="center"
-            android:padding="10dp"
-            android:layout_margin="15dp"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="사용 가능한 쿠폰" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="설정"
-            android:gravity="center"
-            android:padding="10dp"
-            android:layout_margin="15dp"/>
-    </LinearLayout>
+            <Button
+                android:id="@+id/upload_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="캠핑장 정보 업로드" />
 
-</FrameLayout>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="등록한 캠핑장" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="설정" />
+        </LinearLayout>
+
+    </FrameLayout>
+</layout>
