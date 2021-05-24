@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="세부정보 선택"
+        android:textSize="25dp"
+        android:padding="10dp"
+        android:textStyle="bold"/>
+
+    <RadioButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="셔틀 or 픽업 서비스"
+        android:textSize="20dp"
+        android:id="@+id/rbtn_pickup"
+        android:layout_marginLeft="15dp"/>
+
+    <RadioButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="바베큐"
+        android:textSize="20dp"
+        android:id="@+id/rbtn_barbeque"
+        android:layout_marginLeft="15dp"/>
+
+    <RadioButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="온수"
+        android:textSize="20dp"
+        android:id="@+id/rbtn_water"
+        android:layout_marginLeft="15dp"/>
+
+    <RadioButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="주차장"
+        android:textSize="20dp"
+        android:id="@+id/rbtn_parking"
+        android:layout_marginLeft="15dp"/>
+
+    <RadioButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Wifi"
+        android:textSize="20dp"
+        android:id="@+id/rbtn_wifi"
+        android:layout_marginLeft="15dp"/>
+
+</LinearLayout>
