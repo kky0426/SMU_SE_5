@@ -4,12 +4,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import com.example.campingapp.databinding.FragmentAccountBinding;
 
 
 public class AccountFragment extends Fragment {
@@ -21,7 +24,8 @@ public class AccountFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_account, container, false);
-        btn_resv = (Button) view.findViewById(R.id.confrim_reserve_button);
+        FragmentAccountBinding binding = DataBindingUtil.inflate(inflater,R.layout.fragment_account,container,false);
+        btn_resv = binding.confrimReserveButton;
         btn_resv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -30,15 +34,14 @@ public class AccountFragment extends Fragment {
             }
         });
 
-        btn_used = (Button) view.findViewById(R.id.used_camp);
+        btn_used = binding.usedCamp;
         btn_used.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
         });
-
-        btn_upload = (Button)view.findViewById(R.id.upload_button);
+        btn_upload=binding.uploadButton;
         btn_upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,6 +50,6 @@ public class AccountFragment extends Fragment {
             }
         });
 
-        return view;
+        return binding.getRoot();
     }
 }
