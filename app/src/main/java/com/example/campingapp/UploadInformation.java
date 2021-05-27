@@ -121,7 +121,7 @@ public class UploadInformation extends AppCompatActivity {
                 minPeople = Integer.parseInt(binding.peopleMin.getText().toString());
                 maxPeople = Integer.parseInt(binding.peopleMax.getText().toString());
 
-                viewModel.uploadFB(name,addr,phone,price,addPrice,minPeople,maxPeople,bbq,parking,pickup,water,wifi);
+                viewModel.uploadDB(name,addr,phone,price,addPrice,minPeople,maxPeople,bbq,parking,pickup,water,wifi);
 
 
                 onBackPressed();
