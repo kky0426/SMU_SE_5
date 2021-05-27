@@ -46,7 +46,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:text="필터"
-
+                    android:id="@+id/filter_button"
                     />
 
                 <View

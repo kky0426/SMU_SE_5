@@ -1,5 +1,7 @@
 package com.example.campingapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -17,15 +19,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.campingapp.databinding.FragmentSearchBinding;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 
 public class SearchFragment extends Fragment {
     String[] sortCondition_ = {"정렬","리뷰 많은 순", "평점 높은 순", "가격 낮은 순"};
-
+    boolean bbq;
+    boolean wifi;
+    boolean parking;
+    boolean water;
+    boolean pickup;
+    final ArrayList<String> list = new ArrayList<String>();
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,21 +45,16 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //View view = inflater.inflate(R.layout.fragment_search,container,false);
+
         FragmentSearchBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false);
-        //View view = binding.getRoot();
-
         SearchSystem viewModel = ViewModelProviders.of(this).get(SearchSystem.class);
-        //검색 버튼
 
-        //ListView searchView = (ListView)view.findViewById(R.id.listview_camp);
+        //검색 버튼
         ListView searchView = (ListView)binding.listviewCamp;
-        //Button searchButton = (Button) view.findViewById(R.id.button_search);
         Button searchButton = (Button) binding.buttonSearch;
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //EditText searchText = (EditText)view.findViewById(R.id.text_search);
                 EditText searchText = (EditText)binding.textSearch;
                 String search = searchText.getText().toString();
                 viewModel.printSearchItem(searchView,search);
@@ -103,6 +107,69 @@ public class SearchFragment extends Fragment {
 
         });
 
+        Button filter = (Button)binding.filterButton;
+        filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String[] items = new String[]{"셔틀 or 픽업 서비스",
+                        "바베큐", "온수", "주차장", "Wifi"};
+                AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+                dialog.setTitle("세부정보 선택")
+                        .setMultiChoiceItems(items,
+                                new boolean[]{false, false, false, false, false},
+                                new DialogInterface.OnMultiChoiceClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                                        if (isChecked) {
+                                            Toast.makeText(getActivity(),
+                                                    items[which], Toast.LENGTH_SHORT).show();
+                                            list.add(items[which]);
+                                        } else {
+                                            list.remove(items[which]);
+                                        }
+                                    }
+                                })
+                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                for (String item : list) {
+                                    switch (item){
+                                        case "셔틀 or 픽업 서비스":
+                                            pickup=true;
+                                            break;
+                                        case "바베큐":
+                                            bbq=true;
+                                            break;
+                                        case "온수":
+                                            water=true;
+                                            break;
+                                        case "주차장":
+                                            parking=true;
+                                            break;
+                                        case "Wifi":
+                                            wifi=true;
+                                            break;
+                                    }
+                                }
+                                viewModel.filtering(bbq,parking,pickup,water,wifi);
+
+                            }
+                        })
+                        .setNeutralButton("취소", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                bbq=false;
+                                pickup=false;
+                                parking=false;
+                                wifi=false;
+                                water=false;
+                            }
+                        });
+                dialog.create();
+                dialog.show();
+            }
+        });
 
 
 
