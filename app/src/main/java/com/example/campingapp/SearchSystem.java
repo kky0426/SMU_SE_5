@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SpinnerAdapter;
@@ -24,6 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -34,11 +36,11 @@ public class SearchSystem extends AndroidViewModel {
     //AppDatabase db;
     private DatabaseReference mDatabase;
     SearchItemAdapter searchAdapter;
+    SearchItemAdapter filterdAdapter;
     Context context;
     public SearchSystem(@NonNull Application application) {
         super(application);
         this.context=application;
-        //db = AppDatabase.getInstance(application);
         searchAdapter = new SearchItemAdapter();
         Thread th = new Thread(new Runnable() {
             @Override
@@ -61,16 +63,27 @@ public class SearchSystem extends AndroidViewModel {
 
                     }
                 });
-/*
-                for (int i = 0; i < campList.size(); i++) {
-                    CampingEntity camp = campList.get(i);
-                    //SearchItem item = new SearchItem(camp.getCampName(), camp.getReview(), camp.getRating(), camp.getPrice());
-                    searchAdapter.addItem(camp);
-                }*/
+
             }
         });
         th.start();
 
+    }
+
+    public void filtering(boolean bbq,boolean parking,boolean pickup,boolean water,boolean wifi){
+        ArrayList<CampingEntity> itemList = searchAdapter.items;
+        ArrayList<CampingEntity> filterdList= new ArrayList<CampingEntity>();
+
+        for(CampingEntity item : itemList){
+            if ( (!bbq || bbq==item.isDetailBbq()) && (!parking || parking==item.isDetailParking())
+            && (!pickup || pickup == item.isDetailPickup()) && (!water || item.isDetailWater() ==water)
+            && (!wifi || item.isDetailWifi()==wifi)){
+                filterdList.add(item);
+            }
+
+        }
+        searchAdapter.items = filterdList;
+        searchAdapter.notifyDataSetChanged();
     }
 
     public void printSearchItem(ListView view, String search) {
@@ -124,59 +137,7 @@ public class SearchSystem extends AndroidViewModel {
         searchAdapter.items = itemList;
         searchAdapter.notifyDataSetChanged();
     }
-    /*
-    public void SortSearchItem(String condition){
-        ArrayList<SearchItem> itemList = searchAdapter.items;
-        switch (condition) {
-            case "리뷰 많은 순":
-                Comparator<SearchItem> sort_review = new Comparator<SearchItem>() {
-                    @Override
-                    public int compare(SearchItem o1, SearchItem o2) {
-                        return (o2.getReview() - o1.getReview());
-                    }
-                };
-                Collections.sort(itemList, sort_review);
-                searchAdapter.items = itemList;
-                searchAdapter.notifyDataSetChanged();
-                break;
-            case "평점 높은 순":
-                Comparator<SearchItem> sort_rating = new Comparator<SearchItem>() {
-                    @Override
-                    public int compare(SearchItem o1, SearchItem o2) {
-                        if (o1.getRating() > o2.getRating())
-                            return -1;
-                        else if (o1.getRating() == o2.getRating())
-                            return 0;
-                        else return 1;
-                    }
-                };
-                Collections.sort(itemList, sort_rating);
-                searchAdapter.items = itemList;
-                searchAdapter.notifyDataSetChanged();
-                break;
-            case "가격 낮은 순":
-                Comparator<SearchItem> cond = new Comparator<SearchItem>() {
-                    @Override
-                    public int compare(SearchItem o1, SearchItem o2) {
-                        if (o1.getPrice() > o2.getPrice())
-                            return 1;
-                        else if (o1.getPrice() == o2.getPrice())
-                            return 0;
-                        else return -1;
-                    }
-                };
-                Collections.sort(itemList, cond);
-                searchAdapter.items = itemList;
-                searchAdapter.notifyDataSetChanged();
-                break;
-            default:
-                searchAdapter.items = itemList;
-                searchAdapter.notifyDataSetChanged();
-                break;
 
-        }
-    }
-    */
     class  SearchItemAdapter extends BaseAdapter implements Filterable {
         ArrayList<CampingEntity> items = new ArrayList<CampingEntity>();
         private ArrayList<CampingEntity> oriItems = items;
@@ -218,6 +179,7 @@ public class SearchSystem extends AndroidViewModel {
             return view;
         }
 
+
         @Override
         public Filter getFilter() {
             if (listFilter == null){
@@ -225,6 +187,7 @@ public class SearchSystem extends AndroidViewModel {
             }
             return listFilter;
         }
+
 
         private class ListFilter extends Filter{
             @Override

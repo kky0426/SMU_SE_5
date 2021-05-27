@@ -21,7 +21,7 @@ public class LoginSystem extends ViewModel {
     private FirebaseAuth firebaseAuth;
     private DatabaseReference firebaseDb;
     private FirebaseUser fUser;
-    public boolean SignUpUser(String name, String email, String password) {
+    public boolean SignUpUser(String name, String email, String password,String business) {
         final boolean[] flag = {true};
         firebaseDb=FirebaseDatabase.getInstance("https://smu-se5-camping-default-rtdb.firebaseio.com/").getReference();
         firebaseAuth = FirebaseAuth.getInstance();
@@ -32,7 +32,7 @@ public class LoginSystem extends ViewModel {
                 if (task.isSuccessful()){
                     fUser=firebaseAuth.getCurrentUser();
                     String uid = fUser.getUid();
-                    UserEntity user=new UserEntity(uid,email,name);
+                    UserEntity user=new UserEntity(uid,email,name,business);
                     firebaseDb.child("user").child(uid).setValue(user);
                     return;
                 }else{
@@ -43,6 +43,7 @@ public class LoginSystem extends ViewModel {
         });
         return flag[0];
     }
+
 
     public FirebaseUser Login(String email,String password){
         final FirebaseUser currentUser;
