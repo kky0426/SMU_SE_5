@@ -4,11 +4,13 @@ public class UserEntity {
     public String uid;
     public String email;
     public String name;
+    public String businessNum;
 
-    public UserEntity(String uid, String email, String name) {
+    public UserEntity(String uid, String email, String name, String businessNum) {
         this.uid = uid;
         this.email = email;
         this.name = name;
+        this.businessNum = businessNum;
     }
 
     public String getUid() {
@@ -34,4 +36,8 @@ public class UserEntity {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getBusinessNum(){return businessNum;}
+
+    public void  setBusinessNum(){this.businessNum = businessNum;}
 }

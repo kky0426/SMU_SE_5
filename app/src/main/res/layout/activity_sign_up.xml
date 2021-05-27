@@ -18,6 +18,31 @@
             android:text="별 보러 가자"
             android:textSize="100dp"
             android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="5dp"
+                android:id="@+id/radio_group">
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="일반 회원"
+                    android:checked="true"
+                    android:id="@+id/radio_normal"/>
+                <RadioButton
+                    android:layout_marginLeft="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="사업자 회원"
+                    android:id="@+id/radio_business"/>
+            </RadioGroup>
+        </LinearLayout>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -87,6 +112,19 @@
                     android:layout_height="30dp"
                     android:layout_marginTop="5dp"
                     android:background="#DFDFDF" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="사업자 번호"
+                    android:textSize="20dp"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="5dp"
+                    android:background="#DFDFDF"
+                    android:id="@+id/business"
+                    android:enabled="false"/>
 
                 <Button
                     android:id="@+id/register_button"
