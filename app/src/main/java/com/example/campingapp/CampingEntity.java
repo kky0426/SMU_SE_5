@@ -1,45 +1,43 @@
 package com.example.campingapp;
 
-//import androidx.room.ColumnInfo;
-//import androidx.room.Entity;
-//import androidx.room.PrimaryKey;
+
+
+import android.net.Uri;
 
 import java.io.Serializable;
 import java.lang.reflect.Array;
 
-//@Entity
+
 public class CampingEntity implements Serializable{
-    //@PrimaryKey(autoGenerate = true)
+
 
     private String id;
-
+    private String photoUri;
     private String campName;
     private String campAddr;
     private String campPhone;
 
-    //@ColumnInfo(defaultValue = "0")
     private int review;
-
-    //@ColumnInfo(defaultValue = "0.0")
     private double rating;
     private int maxPeople;
     private int minPeople;
-
-    //@ColumnInfo(defaultValue = "0")
     private int price;
     private int addPrice;
 
-    //@ColumnInfo(defaultValue = "false")
+
     private boolean detailBbq;
-    //@ColumnInfo(defaultValue = "false")
     private boolean detailParking;
-    //@ColumnInfo(defaultValue = "false")
     private boolean detailPickup;
-    //@ColumnInfo(defaultValue = "false")
     private boolean detailWater;
-    //@ColumnInfo(defaultValue = "false")
     private boolean detailWifi;
 
+    public String getPhotoUri() {
+        return photoUri;
+    }
+
+    public void setPhotoUri(String photoUri) {
+        this.photoUri = photoUri;
+    }
     public boolean isDetailBbq() {
         return detailBbq;
     }
