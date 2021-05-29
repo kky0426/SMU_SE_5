@@ -1,5 +1,6 @@
 package com.example.campingapp;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -7,7 +8,10 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -35,14 +39,16 @@ public class UploadInformation extends AppCompatActivity {
     boolean parking;
     boolean water;
     boolean pickup;
-
+    ActivityUploadInformationBinding binding;
+    Uri photoUri;
+    int PICK_IMAGE_FROM_ALBUM = 0;
     final ArrayList<String> list = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_upload_information);
-        ActivityUploadInformationBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_upload_information);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_upload_information);
         UploadViewModel viewModel = ViewModelProviders.of(this).get(UploadViewModel.class);
         //detail = (Button) findViewById(R.id.set_detail_button);
         Button detail = (Button) binding.setDetailButton;
@@ -108,6 +114,19 @@ public class UploadInformation extends AppCompatActivity {
                 dialog.show();
             }
         });
+        Button imageButton = (Button) binding.imageSelectButton;
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent photoIntent = new Intent(Intent.ACTION_PICK);
+                photoIntent.setType("image/*");
+                startActivityForResult(photoIntent,PICK_IMAGE_FROM_ALBUM);
+            }
+        });
+
+
+
+
         Button upload = (Button) binding.buttonUpload;
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,13 +140,25 @@ public class UploadInformation extends AppCompatActivity {
                 minPeople = Integer.parseInt(binding.peopleMin.getText().toString());
                 maxPeople = Integer.parseInt(binding.peopleMax.getText().toString());
 
-                viewModel.uploadDB(name,addr,phone,price,addPrice,minPeople,maxPeople,bbq,parking,pickup,water,wifi);
+                viewModel.uploadDB(name,addr,phone,price,addPrice,minPeople,maxPeople,bbq,parking,pickup,water,wifi,photoUri);
 
 
                 onBackPressed();
             }
         });
 
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            photoUri = data.getData();
+            binding.imageSelect.setImageURI(photoUri);
+        } else {
+            finish();
+        }
 
     }
 

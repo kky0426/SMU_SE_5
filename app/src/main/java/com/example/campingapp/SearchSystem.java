@@ -3,6 +3,7 @@ package com.example.campingapp;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -19,11 +20,15 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.ViewModel;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -33,40 +38,45 @@ import java.util.List;
 
 
 public class SearchSystem extends AndroidViewModel {
-    //AppDatabase db;
+
     private DatabaseReference mDatabase;
+    private StorageReference storage;
     SearchItemAdapter searchAdapter;
-    SearchItemAdapter filterdAdapter;
     Context context;
     public SearchSystem(@NonNull Application application) {
         super(application);
         this.context=application;
+        init();
+
+    }
+
+
+    private void init(){
         searchAdapter = new SearchItemAdapter();
-        Thread th = new Thread(new Runnable() {
+        mDatabase=FirebaseDatabase.getInstance("https://smu-se5-camping-default-rtdb.firebaseio.com/").getReference();
+        storage= FirebaseStorage.getInstance().getReferenceFromUrl("gs://smu-se5-camping.appspot.com");
+        mDatabase.child("camp").addValueEventListener(new ValueEventListener() {
             @Override
-            public void run() {
-                //List<CampingEntity> campList = db.campingDao().getAll();
-                mDatabase=FirebaseDatabase.getInstance("https://smu-se5-camping-default-rtdb.firebaseio.com/").getReference();
-                mDatabase.child("camp").addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        //List<CampingEntity> campList;
-                        for(DataSnapshot dSnap : dataSnapshot.getChildren()){
-                            CampingEntity camp = dSnap.getValue(CampingEntity.class);
-                            camp.setId(dSnap.getKey());
-                            searchAdapter.addItem(camp);
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot dSnap : dataSnapshot.getChildren()){
+                    CampingEntity camp = dSnap.getValue(CampingEntity.class);
+                    camp.setId(dSnap.getKey());
+                    storage.child("campImage").child(camp.getId()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            camp.setPhotoUri(uri.toString());
+
                         }
-                    }
+                    });
+                    searchAdapter.addItem(camp);
+                }
+            }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
-        th.start();
 
     }
 
@@ -175,6 +185,7 @@ public class SearchSystem extends AndroidViewModel {
             view.setTextReview(item.getReview());
             view.setTextRating(item.getRating());
             view.setTextPrice(item.getPrice());
+            view.setCampImage(context,item.getPhotoUri());
 
             return view;
         }

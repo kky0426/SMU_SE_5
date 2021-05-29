@@ -2,6 +2,7 @@ package com.example.campingapp;
 
 import android.content.Context;
 import android.media.Image;
+import android.net.Uri;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 
 import org.w3c.dom.Text;
 
@@ -50,5 +53,11 @@ public class SearchItemView extends LinearLayout {
     public void setTextReview(Integer review){textReview.setText(Integer.toString(review));}
     public void setTextRating(Double rating){textRating.setText(Double.toString(rating));}
     public void setTextPrice(Integer price){textPrice.setText(Integer.toString(price));}
+    public void setCampImage(Context context,String photoUri){
+        Uri uri = Uri.parse(photoUri);
+        Glide.with(context)
+                .load(uri)
+                .into(campImage);
+    }
 
 }
