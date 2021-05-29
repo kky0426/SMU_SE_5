@@ -186,12 +186,7 @@ public class SearchSystem extends AndroidViewModel {
             view.setTextRating(item.getRating());
             view.setTextPrice(item.getPrice());
             view.setCampImage(context,item.getPhotoUri());
-            /*
-            Glide.with(context)
-                    .load(item.getPhotoUri())
-                    .into(view.campImage);
 
-             */
             return view;
         }
 

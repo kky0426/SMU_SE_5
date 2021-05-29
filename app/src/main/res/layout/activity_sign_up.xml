@@ -90,28 +90,32 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="비밀번호"
-                    android:textSize="20dp" />
+                    android:textSize="20dp"
+                    />
 
                 <EditText
                     android:id="@+id/user_password"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_marginTop="5dp"
-                    android:background="#DFDFDF" />
+                    android:background="#DFDFDF"
+                    android:inputType="textPassword"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="비밀번호 확인"
-                    android:textSize="20dp" />
+                    android:textSize="20dp"
+                    />
 
                 <EditText
                     android:id="@+id/password_check"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_marginTop="5dp"
-                    android:background="#DFDFDF" />
+                    android:background="#DFDFDF"
+                    android:inputType="textPassword"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

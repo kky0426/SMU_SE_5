@@ -45,7 +45,9 @@
                 android:layout_marginTop="10dp"
                 android:background="#DFDFDF"
                 android:hint="@string/password"
-                tools:ignore="MissingConstraints" />
+                android:inputType="textPassword"
+                tools:ignore="MissingConstraints"
+                />
 
             <Button
                 android:id="@+id/login_button"
