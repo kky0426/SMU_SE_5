@@ -139,9 +139,11 @@ public class UploadInformation extends AppCompatActivity {
                 addPrice = Integer.parseInt(binding.uploadAddPrice.getText().toString());
                 minPeople = Integer.parseInt(binding.peopleMin.getText().toString());
                 maxPeople = Integer.parseInt(binding.peopleMax.getText().toString());
-
-                viewModel.uploadDB(name,addr,phone,price,addPrice,minPeople,maxPeople,bbq,parking,pickup,water,wifi,photoUri);
-
+                if (name == null || addr == null || phone == null || price == 0 || addPrice==0 || minPeople ==0 || maxPeople ==0 ){
+                    Toast.makeText(UploadInformation.this,"값을 모두 입력해주세요.",Toast.LENGTH_SHORT).show();
+                }else {
+                    viewModel.uploadDB(name, addr, phone, price, addPrice, minPeople, maxPeople, bbq, parking, pickup, water, wifi, photoUri);
+                }
 
                 onBackPressed();
             }

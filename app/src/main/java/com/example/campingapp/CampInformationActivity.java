@@ -28,11 +28,10 @@ public class CampInformationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_camp_information);
         binding = DataBindingUtil.setContentView(this,R.layout.activity_camp_information);
 
         Intent intent = getIntent();
-        CampingEntity camp = (CampingEntity) intent.getSerializableExtra("CampingEntity");
+        camp = (CampingEntity) intent.getSerializableExtra("CampingEntity");
         binding.setCamp(camp);
         if (camp==null){
 
@@ -50,6 +49,7 @@ public class CampInformationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(),ReservationActivity.class);
+                intent.putExtra("CampingEntity",camp);
                 startActivity(intent);
             }
         });
