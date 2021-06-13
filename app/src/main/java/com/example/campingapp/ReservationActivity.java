@@ -30,6 +30,7 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnRangeSelectedListener;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -47,7 +48,7 @@ public class ReservationActivity extends AppCompatActivity {
     Button reserveBtn;
     Button cancelBtn;
     CampingEntity camp;
-
+    ReservationSystem reservationSystem = new ReservationSystem();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +65,7 @@ public class ReservationActivity extends AppCompatActivity {
                 )
 
         ).setCalendarDisplayMode(CalendarMode.MONTHS).commit();
+        reservationSystem.blockDate(camp,calendarView);
 
 
         calendarView.setOnRangeSelectedListener(new OnRangeSelectedListener() {
@@ -99,8 +101,7 @@ public class ReservationActivity extends AppCompatActivity {
                     Toast.makeText(ReservationActivity.this,"인원수를 확인해 주세요",Toast.LENGTH_SHORT).show();
                 }else{
                     //예약
-                    ReservationSystem reservationSystem = new ReservationSystem();
-                    reservationSystem.reserveCamp(camp,startDay.toString(),endDay.toString(),people);
+                    reservationSystem.reserveCamp(camp,startDay,endDay,people);
                     onBackPressed();
                 }
             }
@@ -109,32 +110,13 @@ public class ReservationActivity extends AppCompatActivity {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ArrayList<ReservationEntity> res;
                 onBackPressed();
             }
         });
 
     }
 
-    private class DayDecorator implements DayViewDecorator{
-        CalendarDay start;
-        CalendarDay end;
 
-        public DayDecorator(CalendarDay start, CalendarDay end) {
-            this.start = start;
-            this.end = end;
-        }
-
-        @Override
-        public boolean shouldDecorate(CalendarDay day) {
-            return day.isInRange(start,end);
-
-        }
-
-        @Override
-        public void decorate(DayViewFacade view) {
-            view.setDaysDisabled(true);
-
-        }
-    }
 
 }
