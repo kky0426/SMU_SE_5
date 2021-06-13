@@ -3,13 +3,13 @@ package com.example.campingapp;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 public class ReservationEntity {
-    String userId;
-    String campId;
-    String startDay;
-    String endDay;
-    int people;
-    int price;
-
+    private String userId;
+    private String campId;
+    private String startDay;
+    private String endDay;
+    private int people;
+    private int price;
+    /*
     public ReservationEntity(String userId, String campId, String startDay, String endDay, int people, int price) {
         this.userId = userId;
         this.campId = campId;
@@ -17,7 +17,7 @@ public class ReservationEntity {
         this.endDay = endDay;
         this.people = people;
         this.price = price;
-    }
+    }*/
 
     public String getUserId() {
         return userId;
