@@ -185,7 +185,10 @@ public class SearchSystem extends AndroidViewModel {
             view.setTextReview(item.getReview());
             view.setTextRating(item.getRating());
             view.setTextPrice(item.getPrice());
-            view.setCampImage(context,item.getPhotoUri());
+            if (item.getPhotoUri()!=null){
+                view.setCampImage(context,item.getPhotoUri());
+            }
+            //view.setCampImage(context,item.getPhotoUri());
 
             return view;
         }
