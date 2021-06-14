@@ -31,7 +31,6 @@ public class ReservationSystem {
     public void reserveCamp(CampingEntity camp, CalendarDay startDay, CalendarDay endDay, int people){
         String userId = user.getUid();
         int price = (camp.getPrice() + camp.getAddPrice()*(people-camp.getMinPeople()));
-        //ReservationEntity reservation = new ReservationEntity(userId,camp.getId(),startDay,endDay,people,price);
         ReservationEntity reservation = new ReservationEntity();
         reservation.setUserId(userId);
         reservation.setCampId(camp.getId());
