@@ -5,6 +5,7 @@ import com.prolificinteractive.materialcalendarview.CalendarDay;
 public class ReservationEntity {
     private String userId;
     private String campId;
+    private String campName;
     private String startDay;
     private String endDay;
     private int people;
@@ -18,7 +19,8 @@ public class ReservationEntity {
         this.people = people;
         this.price = price;
     }*/
-
+    public String getCampName(){return campName;}
+    public void setCampName(String name){this.campName=name;}
     public String getUserId() {
         return userId;
     }
