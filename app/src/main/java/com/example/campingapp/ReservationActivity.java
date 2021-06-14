@@ -3,6 +3,7 @@ package com.example.campingapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.database.DataSetObserver;
@@ -48,12 +49,14 @@ public class ReservationActivity extends AppCompatActivity {
     Button reserveBtn;
     Button cancelBtn;
     CampingEntity camp;
-    ReservationSystem reservationSystem = new ReservationSystem();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityReservationBinding binding = DataBindingUtil.setContentView(this,R.layout.activity_reservation);
         Intent intent = getIntent();
+        ReservationSystem reservationSystem = ViewModelProviders.of(this).get(ReservationSystem.class);
         camp = (CampingEntity) intent.getSerializableExtra("CampingEntity");
 
         calendarView = binding.calendar;
