@@ -12,6 +12,7 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -34,7 +35,7 @@ import java.util.Date;
 
 public class ReservationSystem extends AndroidViewModel {
     private FirebaseAuth auth;
-    private FirebaseUser user ;
+    private FirebaseUser user;
     private DatabaseReference firebaseDb;
     Context context;
     static ReserveItemAdapter reserveAdapter;
@@ -46,7 +47,6 @@ public class ReservationSystem extends AndroidViewModel {
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
     }
-
 
 
     public void reserveCamp(CampingEntity camp, CalendarDay startDay, CalendarDay endDay, int people) {
@@ -62,6 +62,19 @@ public class ReservationSystem extends AndroidViewModel {
         reservation.setPrice(price);
         firebaseDb.child("reservation").child(camp.getId()).child(userId).setValue(reservation);
     }
+
+    public boolean cancelReservation(ReservationEntity reservation,String userId) {
+        final boolean[] flag = {false};
+        firebaseDb.child("reservation").child(reservation.getCampId()).child(userId).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                flag[0] = true;
+            }
+        });
+
+        return flag[0];
+    }
+
 
 
     public void printReservation(final com.example.campingapp.Callback callback) {

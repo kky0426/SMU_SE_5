@@ -46,12 +46,22 @@ public class SearchSystem extends AndroidViewModel {
     public SearchSystem(@NonNull Application application) {
         super(application);
         this.context=application;
-        init();
+        init(new Callback() {
+            @Override
+            public void onSuceess(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onSuceess() {
+                searchAdapter.notifyDataSetChanged();
+            }
+        });
 
     }
 
 
-    private void init(){
+    private void init(Callback callback){
         searchAdapter = new SearchItemAdapter();
         mDatabase=FirebaseDatabase.getInstance("https://smu-se5-camping-default-rtdb.firebaseio.com/").getReference();
         storage= FirebaseStorage.getInstance().getReferenceFromUrl("gs://smu-se5-camping.appspot.com");
@@ -61,15 +71,20 @@ public class SearchSystem extends AndroidViewModel {
                 for(DataSnapshot dSnap : dataSnapshot.getChildren()){
                     CampingEntity camp = dSnap.getValue(CampingEntity.class);
                     camp.setId(dSnap.getKey());
+
+
                     storage.child("campImage").child(camp.getId()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
                             camp.setPhotoUri(uri.toString());
-
+                            searchAdapter.addItem(camp);
+                            callback.onSuceess();
                         }
                     });
-                    searchAdapter.addItem(camp);
+
                 }
+
+
             }
 
             @Override
@@ -147,6 +162,7 @@ public class SearchSystem extends AndroidViewModel {
         searchAdapter.items = itemList;
         searchAdapter.notifyDataSetChanged();
     }
+
 
     class  SearchItemAdapter extends BaseAdapter implements Filterable {
         ArrayList<CampingEntity> items = new ArrayList<CampingEntity>();
