@@ -71,13 +71,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="캠핑장 정보"
-                android:layout_margin="15dp"/>
+                android:layout_margin="15dp"
+                android:id="@+id/goto_campInfo"/>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="예약 취소"
-                android:layout_margin="15dp"/>
+                android:layout_margin="15dp"
+                android:id="@+id/reserve_cancel"/>
         </LinearLayout>
     </LinearLayout>
 
