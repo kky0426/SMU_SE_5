@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.campingapp.databinding.ActivityCampInformationBinding;
 import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.firebase.database.DataSnapshot;
 
 import java.util.Calendar;
 
@@ -37,15 +38,26 @@ public class CampInformationActivity extends AppCompatActivity {
         Dialog dialog = new Dialog(CampInformationActivity.this);
         Intent intent = getIntent();
         camp = (CampingEntity) intent.getSerializableExtra("CampingEntity");
-        binding.setCamp(camp);
+
         if (camp == null) {
 
-        } else {
+
+        }else {
+            binding.setCamp(camp);
+            System.out.println(camp.getPhotoUri());
+
             Uri uri = Uri.parse(camp.getPhotoUri());
             Glide.with(this)
                     .load(uri)
                     .into(binding.campInfoImage);
+
+
         }
+
+
+
+
+
 
 
         Button reserve_btn = (Button) binding.reserveButton;

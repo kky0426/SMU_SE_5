@@ -12,7 +12,8 @@
         android:textSize="45dp"
         android:textStyle="bold"
         android:padding="5dp"
-        android:layout_marginLeft="5dp"/>
+        android:layout_marginLeft="5dp"
+        android:id="@+id/title_res"/>
 
 
 
@@ -20,12 +21,27 @@
         android:layout_width="match_parent"
         android:layout_height="3dp"
         android:background="#d3d3d3"
-        android:layout_marginTop="3dp"/>
+        android:layout_marginTop="3dp"
+        />
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/confirm_list"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:id="@+id/confirm_list"
+         />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="#d5d5d5"
+        android:layout_marginTop="3dp"
+        />
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+
+        android:layout_weight="1"
+        android:id="@+id/used_list"/>
 
 
 </LinearLayout>
