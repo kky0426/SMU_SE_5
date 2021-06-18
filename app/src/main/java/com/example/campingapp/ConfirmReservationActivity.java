@@ -213,7 +213,16 @@ public class ConfirmReservationActivity extends AppCompatActivity  {
             view.setTextStart(item.getStartDay());
             view.setTextEnd(item.getEndDay());
             view.setTextPeople(item.getPeople());
+            Button revwrbtn=view.findViewById(R.id.write_review);
+            revwrbtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent1=new Intent(ConfirmReservationActivity.this,WritingReview.class);
+                    intent1.putExtra("campid",item.getCampId());
+                    startActivity(intent1);
 
+                }
+            });
             return view;
         }
     }
