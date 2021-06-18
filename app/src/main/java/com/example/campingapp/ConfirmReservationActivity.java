@@ -4,9 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -38,6 +41,7 @@ public class ConfirmReservationActivity extends AppCompatActivity  {
     private FirebaseAuth auth;
     private FirebaseUser user;
     ReservationSystem reservationSystem;
+    ReviewSystem reviewSystem;
     String userId;
     ReserveItemAdapter confirmAdapter;
     UsedItemAdapter usedAdapter;
@@ -53,10 +57,9 @@ public class ConfirmReservationActivity extends AppCompatActivity  {
         ListView usedList = (ListView) findViewById(R.id.used_list);
         confirmAdapter = new ReserveItemAdapter();
         usedAdapter = new UsedItemAdapter();
-        reservationSystem.printReservation(new Callback() {
-
+        reservationSystem.printReservation(new CallbackData() {
             @Override
-            public void onSuceess(DataSnapshot dataSnapshot) {
+            public void onSuccess(DataSnapshot dataSnapshot) {
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 LocalDate current = LocalDate.now();
 
@@ -66,11 +69,11 @@ public class ConfirmReservationActivity extends AppCompatActivity  {
                         if (dSnap2.getKey().equals(userId)) {
                             ReservationEntity reservation = dSnap2.getValue(ReservationEntity.class);
                             LocalDate time = LocalDate.parse(reservation.getEndDay(), DateTimeFormatter.ISO_DATE);
-                            if (time.isBefore(current)){
+                            if (time.isBefore(current)) {
                                 //예약종료일이 오늘날짜 전
                                 System.out.println(reservation.getEndDay());
                                 usedAdapter.addItem(reservation);
-                            }else{
+                            } else {
                                 //아직 예약종료일이 끝나기 전
 
                                 confirmAdapter.addItem(reservation);
@@ -83,15 +86,11 @@ public class ConfirmReservationActivity extends AppCompatActivity  {
                 confirmList.setAdapter(confirmAdapter);
             }
 
-            @Override
-            public void onSuceess() {
 
-            }
         });
 
-
-
     }
+
 
 
 
@@ -221,6 +220,45 @@ public class ConfirmReservationActivity extends AppCompatActivity  {
                     intent1.putExtra("campid",item.getCampId());
                     startActivity(intent1);
 
+                }
+            });
+            Button delete_review = (Button) view.findViewById(R.id.delete_review);
+            delete_review.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(ConfirmReservationActivity.this);
+                    dialog.setMessage("리뷰를 삭제하시겠습니까?");
+                    dialog.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                           reviewSystem = new ReviewSystem();
+                           reviewSystem.getReview(item.getCampId(), item.getUserId(), new CallbackReview() {
+                               @Override
+                               public void onSuccess(WritingReviewEntity review) {
+                                   reviewSystem.deleteReview(review, new Callback() {
+                                       @Override
+                                       public void onSuccess() {
+                                            Toast.makeText(ConfirmReservationActivity.this,"리뷰를 삭제했습니다.",Toast.LENGTH_SHORT).show();
+                                       }
+
+                                       @Override
+                                       public void onFailure() {
+                                            Toast.makeText(ConfirmReservationActivity.this,"등록된 리뷰가 없습니다.",Toast.LENGTH_SHORT).show();
+                                       }
+                                   });
+                               }
+                           });
+
+
+                        }
+                    });
+                    dialog.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    dialog.show();
                 }
             });
             return view;
