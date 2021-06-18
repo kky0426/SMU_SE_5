@@ -1,32 +1,22 @@
 package com.example.campingapp;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.util.Pair;
 import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.campingapp.databinding.ActivityCampInformationBinding;
-import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,7 +24,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class CampInformationActivity extends AppCompatActivity {
 
@@ -75,7 +64,7 @@ public class CampInformationActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 for(DataSnapshot snap2:snapshot.getChildren()){
-                    writingReviewEntity review=snap2.getValue(writingReviewEntity.class);
+                    WritingReviewEntity review=snap2.getValue(WritingReviewEntity.class);
 
                     adapter10.additem(review);
 
@@ -134,14 +123,14 @@ public class CampInformationActivity extends AppCompatActivity {
 
     }
     class ReviewAdapter extends BaseAdapter {
-        ArrayList<writingReviewEntity> items = new ArrayList<writingReviewEntity>();
+        ArrayList<WritingReviewEntity> items = new ArrayList<WritingReviewEntity>();
 
         @Override
         public int getCount()
         {
             return items.size();
         }
-        public void additem(writingReviewEntity review){
+        public void additem(WritingReviewEntity review){
             items.add(review);
         }
         @Override
@@ -164,7 +153,7 @@ public class CampInformationActivity extends AppCompatActivity {
             {
                 rev_sing=(Review_sing)convertView;
             }
-            writingReviewEntity item = items.get(position);
+            WritingReviewEntity item = items.get(position);
             rev_sing.setUsname(item.getUserName());
             rev_sing.setRecont(item.getCont());
             return rev_sing;

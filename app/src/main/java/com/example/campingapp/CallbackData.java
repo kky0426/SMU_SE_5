@@ -2,9 +2,6 @@ package com.example.campingapp;
 
 import com.google.firebase.database.DataSnapshot;
 
-public interface Callback{
-    void onSuccess();
-
-    void onFailure();
+public interface CallbackData {
+    public void onSuccess(DataSnapshot dataSnapshot);
 }
-
