@@ -24,7 +24,7 @@ public class Review_sing extends LinearLayout{
         inflater.inflate(R.layout.review_item,this,true);
         Usname=findViewById(R.id.review_name);
         Recont=findViewById(R.id.review_cont);
-        ReImg=findViewById(R.id.review_Img);
+
     }
 
     public void setUsname(String rename) {
