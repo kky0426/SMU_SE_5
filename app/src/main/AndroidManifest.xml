@@ -26,6 +26,7 @@
         <activity android:name=".UploadInformation" />
         <activity android:name=".ConfirmReservationActivity" />
         <activity android:name=".CampInformationActivity" />
+        <activity android:name=".WritingReview"/>
         <activity android:name=".MainActivity">
 
         </activity>

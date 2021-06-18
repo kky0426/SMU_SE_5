@@ -77,13 +77,13 @@ public class ReservationSystem extends AndroidViewModel {
 
 
 
-    public void printReservation(final com.example.campingapp.Callback callback) {
+    public void printReservation(final com.example.campingapp.CallbackData callbackData) {
 
         reserveAdapter = new ReserveItemAdapter();
         firebaseDb.child("reservation").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                callback.onSuceess(snapshot);
+                callbackData.onSuccess(snapshot);
 
             }
             @Override

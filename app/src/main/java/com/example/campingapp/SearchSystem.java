@@ -48,13 +48,13 @@ public class SearchSystem extends AndroidViewModel {
         this.context=application;
         init(new Callback() {
             @Override
-            public void onSuceess(DataSnapshot dataSnapshot) {
-
+            public void onSuccess() {
+                searchAdapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onSuceess() {
-                searchAdapter.notifyDataSetChanged();
+            public void onFailure() {
+
             }
         });
 
@@ -78,7 +78,7 @@ public class SearchSystem extends AndroidViewModel {
                         public void onSuccess(Uri uri) {
                             camp.setPhotoUri(uri.toString());
                             searchAdapter.addItem(camp);
-                            callback.onSuceess();
+                            callback.onSuccess();
                         }
                     });
 
