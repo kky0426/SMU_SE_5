@@ -1,27 +1,13 @@
 package com.example.campingapp;
 
-public class writingReviewEntity {
+public class WritingReviewEntity {
 
     private String cid;
-
     private String cont;
-
     private String uid;
-
     private String userName;
-
-
     private float rating;
 
-   /* public writingReviewEntity(String cid,String cont , String uid,  String userName){
-        this.cid=cid;
-
-        this.cont=cont;
-
-        this.uid=uid;
-
-        this.userName=userName;
-    }*/
 
     public String getCid() {
         return cid;
