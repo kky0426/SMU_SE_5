@@ -39,7 +39,6 @@ public class LoginActivity extends AppCompatActivity {
                 String password = binding.passwordEdit.getText().toString();
                 LoginSystem loginSystem = new LoginSystem();
                 FirebaseUser user = loginSystem.Login(email,password);
-                System.out.println(user.getEmail());
                 if (user!=null){
                     Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                     startActivity(intent);
