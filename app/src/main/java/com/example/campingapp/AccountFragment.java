@@ -62,11 +62,17 @@ public class  AccountFragment extends Fragment {
             }
         });
 
-        btn_used = binding.usedCamp;
-        btn_used.setOnClickListener(new View.OnClickListener() {
+        Button btn_uploaded = binding.myCamp;
+        btn_uploaded.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (business[0]!=null) {
+                    Intent intent = new Intent(getActivity(), UploadedCampActivity.class);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(getActivity(),"사업자회원만 사용가능한 기능입니다.",Toast.LENGTH_SHORT).show();
 
+                }
             }
         });
 
