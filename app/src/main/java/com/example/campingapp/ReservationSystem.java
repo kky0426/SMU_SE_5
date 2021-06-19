@@ -63,16 +63,15 @@ public class ReservationSystem extends AndroidViewModel {
         firebaseDb.child("reservation").child(camp.getId()).child(userId).setValue(reservation);
     }
 
-    public boolean cancelReservation(ReservationEntity reservation,String userId) {
-        final boolean[] flag = {false};
-        firebaseDb.child("reservation").child(reservation.getCampId()).child(userId).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+    public void cancelReservation(ReservationEntity reservation,Callback callback) {
+        firebaseDb.child("reservation").child(reservation.getCampId()).child(reservation.getUserId()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                flag[0] = true;
+
+                callback.onSuccess();
             }
         });
 
-        return flag[0];
     }
 
 
@@ -92,22 +91,23 @@ public class ReservationSystem extends AndroidViewModel {
             }
         });
 
-
     }
-    /*
-    public void printReservation(String userId,ListView view){
 
-        ReserveItemAdapter newAdapter = new ReserveItemAdapter();
-        for (ReservationEntity reservation : reserveAdapter.items){
-            if (reservation.getUserId().equals(userId)){
-                newAdapter.addItem(reservation);
+    public void printCampReservation(CampingEntity camp, CallbackData callbackData){
+        firebaseDb.child("reservation").child(camp.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                callbackData.onSuccess(snapshot);
             }
 
-        }
-        view.setAdapter(reserveAdapter);
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
-     */
     public void blockDate(CampingEntity camp, MaterialCalendarView view) {
         firebaseDb.child("reservation").child(camp.getId()).addValueEventListener(new ValueEventListener() {
             ArrayList<ReservationEntity> reservations = new ArrayList<ReservationEntity>();
@@ -169,45 +169,47 @@ public class ReservationSystem extends AndroidViewModel {
     }
 
      class ReserveItemAdapter extends BaseAdapter {
-        ArrayList<ReservationEntity> items = new ArrayList<ReservationEntity>();
+         ArrayList<ReservationEntity> items = new ArrayList<ReservationEntity>();
 
 
-        public void addItem(ReservationEntity item) {
-            items.add(item);
-        }
+         public void addItem(ReservationEntity item) {
+             items.add(item);
+         }
 
-        @Override
-        public int getCount() {
-            return items.size();
-        }
+         @Override
+         public int getCount() {
+             return items.size();
+         }
 
-        @Override
-        public Object getItem(int position) {
-            return items.get(position);
-        }
+         @Override
+         public Object getItem(int position) {
+             return items.get(position);
+         }
 
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
+         @Override
+         public long getItemId(int position) {
+             return position;
+         }
 
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ReserveItemView view = null;
-            if (convertView == null) {
-                view = new ReserveItemView(context);
-            } else {
-                view = (ReserveItemView) convertView;
-            }
-            ReservationEntity item = items.get(position);
-            view.setTextName(item.getCampName());
-            view.setTextStart(item.getStartDay());
-            view.setTextEnd(item.getEndDay());
-            view.setTextPeople(item.getPeople());
+         @Override
+         public View getView(int position, View convertView, ViewGroup parent) {
+             ReserveItemView view = null;
+             if (convertView == null) {
+                 view = new ReserveItemView(context);
+             } else {
+                 view = (ReserveItemView) convertView;
+             }
+             ReservationEntity item = items.get(position);
+             view.setTextName(item.getCampName());
+             view.setTextStart(item.getStartDay());
+             view.setTextEnd(item.getEndDay());
+             view.setTextPeople(item.getPeople());
 
 
-            return view;
-        }
+             return view;
+         }
 
-    }
+
+     }
+
 }

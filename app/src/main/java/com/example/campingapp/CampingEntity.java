@@ -16,6 +16,7 @@ public class CampingEntity implements Serializable{
     private String campName;
     private String campAddr;
     private String campPhone;
+    private String owner;
 
     private int review;
     private double rating;
@@ -30,6 +31,14 @@ public class CampingEntity implements Serializable{
     private boolean detailPickup;
     private boolean detailWater;
     private boolean detailWifi;
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
 
     public String getPhotoUri() {
         return photoUri;

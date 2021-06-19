@@ -20,14 +20,18 @@ import android.widget.Toast;
 
 import com.example.campingapp.databinding.ActivityCampInformationBinding;
 import com.example.campingapp.databinding.ActivityUploadInformationBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class UploadInformation extends AppCompatActivity {
-
+    FirebaseUser user;
+    FirebaseAuth auth;
     String name;
+    String ower;
     String addr;
     String phone;
     int price;
@@ -131,8 +135,10 @@ public class UploadInformation extends AppCompatActivity {
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                auth=FirebaseAuth.getInstance();
+                user = auth.getCurrentUser();
                 name = binding.uploadCampName.getText().toString();
+                ower = user.getUid();
                 addr = binding.uploadCampAddr.getText().toString();
                 phone = binding.uploadCampPhone.getText().toString();
                 price = Integer.parseInt(binding.uploadCampPrice.getText().toString());
@@ -142,7 +148,7 @@ public class UploadInformation extends AppCompatActivity {
                 if (name == null || addr == null || phone == null || price == 0 || addPrice==0 || minPeople ==0 || maxPeople ==0 ){
                     Toast.makeText(UploadInformation.this,"값을 모두 입력해주세요.",Toast.LENGTH_SHORT).show();
                 }else {
-                    viewModel.uploadDB(name, addr, phone, price, addPrice, minPeople, maxPeople, bbq, parking, pickup, water, wifi, photoUri);
+                    viewModel.uploadDB(name,ower,addr, phone, price, addPrice, minPeople, maxPeople, bbq, parking, pickup, water, wifi, photoUri);
                 }
 
                 onBackPressed();

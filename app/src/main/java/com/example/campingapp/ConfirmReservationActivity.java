@@ -164,9 +164,35 @@ public class ConfirmReservationActivity extends AppCompatActivity  {
             cancel_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    reservationSystem.cancelReservation(item,userId);
-                    items.remove(position);
-                    confirmAdapter.items = items;
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(ConfirmReservationActivity.this);
+                    dialog.setMessage("삭제하시겠습니까?");
+                    dialog.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            reservationSystem.cancelReservation(item, new Callback() {
+                                @Override
+                                public void onSuccess() {
+                                    items.remove(position);
+                                    confirmAdapter.items = items;
+                                    Toast.makeText(ConfirmReservationActivity.this,"삭제되었습니다.",Toast.LENGTH_SHORT).show();
+                                    confirmAdapter.notifyDataSetChanged();
+                                }
+
+                                @Override
+                                public void onFailure() {
+                                    Toast.makeText(ConfirmReservationActivity.this,"오류 발생",Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    });
+                    dialog.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    dialog.show();
+
 
                 }
 

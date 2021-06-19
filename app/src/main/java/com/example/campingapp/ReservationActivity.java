@@ -109,6 +109,7 @@ public class ReservationActivity extends AppCompatActivity {
                 }
             }
         });
+        /*
         cancelBtn = (Button) binding.cancelButton;
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,6 +118,8 @@ public class ReservationActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+         */
 
     }
 
