@@ -34,13 +34,14 @@ public class UploadViewModel extends AndroidViewModel {
         storage = FirebaseStorage.getInstance().getReferenceFromUrl("gs://smu-se5-camping.appspot.com");
     }
 
-    public void uploadDB(String name, String addr, String phone, int price, int addPrice , int minPeople, int maxPeople,
+    public void uploadDB(String name,String owner, String addr, String phone, int price, int addPrice , int minPeople, int maxPeople,
                          boolean bbq, boolean parking, boolean pickup, boolean water, boolean wifi, Uri photoUri){
         camp=new CampingEntity();
         camp.setCampName(name);
         camp.setPrice(price);
         camp.setCampPhone(phone);
         camp.setCampAddr(addr);
+        camp.setOwner(owner);
         camp.setAddPrice(addPrice);
         camp.setMinPeople(minPeople);
         camp.setMaxPeople(maxPeople);
