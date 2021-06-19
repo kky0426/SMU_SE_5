@@ -4,9 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
-    <ImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"/>
+
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -19,7 +17,8 @@
             android:text="캠핑장이름"
             android:textSize="25dp"
             android:padding="5dp"
-            android:layout_marginLeft="5dp"/>
+            android:layout_marginLeft="5dp"
+            android:id="@+id/my_camp_name"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -30,13 +29,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="예약 관리"
-                android:layout_margin="15dp"/>
+                android:layout_margin="15dp"
+                android:id="@+id/reservation_manage"/>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="삭제"
-                android:layout_margin="15dp"/>
+                android:layout_margin="15dp"
+                android:id="@+id/camp_delete"/>
         </LinearLayout>
     </LinearLayout>
 

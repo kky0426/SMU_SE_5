@@ -1,19 +1,24 @@
 package com.example.campingapp;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SpinnerAdapter;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -22,6 +27,8 @@ import androidx.lifecycle.ViewModel;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,6 +49,9 @@ public class SearchSystem extends AndroidViewModel {
     private DatabaseReference mDatabase;
     private StorageReference storage;
     SearchItemAdapter searchAdapter;
+    UploadItemAdapter uploadItemAdapter;
+    private FirebaseAuth auth;
+    private FirebaseUser user;
     Context context;
     public SearchSystem(@NonNull Application application) {
         super(application);
@@ -49,6 +59,7 @@ public class SearchSystem extends AndroidViewModel {
         init(new Callback() {
             @Override
             public void onSuccess() {
+                uploadItemAdapter.notifyDataSetChanged();
                 searchAdapter.notifyDataSetChanged();
             }
 
@@ -63,6 +74,9 @@ public class SearchSystem extends AndroidViewModel {
 
     private void init(Callback callback){
         searchAdapter = new SearchItemAdapter();
+        uploadItemAdapter = new UploadItemAdapter();
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
         mDatabase=FirebaseDatabase.getInstance("https://smu-se5-camping-default-rtdb.firebaseio.com/").getReference();
         storage= FirebaseStorage.getInstance().getReferenceFromUrl("gs://smu-se5-camping.appspot.com");
         mDatabase.child("camp").addValueEventListener(new ValueEventListener() {
@@ -78,6 +92,10 @@ public class SearchSystem extends AndroidViewModel {
                         public void onSuccess(Uri uri) {
                             camp.setPhotoUri(uri.toString());
                             searchAdapter.addItem(camp);
+                            if(camp.getOwner().equals(user.getUid())){
+                                uploadItemAdapter.addItem(camp);
+                            }
+                            //uploadItemAdapter.addItem(camp);
                             callback.onSuccess();
                         }
                     });
@@ -115,6 +133,22 @@ public class SearchSystem extends AndroidViewModel {
         view.setAdapter(this.searchAdapter);
         searchAdapter.getFilter().filter(search);
     }
+
+    public void printUploadedCamp(ListView view,Activity activity){
+        uploadItemAdapter.activity = activity;
+        view.setAdapter(uploadItemAdapter);
+    }
+
+    public void deleteCamp(CampingEntity camp,Callback callback){
+        mDatabase.child("camp").child(camp.getId()).setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                callback.onSuccess();
+            }
+        });
+    }
+
+
 
     public void sortByReview(){
         ArrayList<CampingEntity> itemList = searchAdapter.items;
@@ -179,7 +213,7 @@ public class SearchSystem extends AndroidViewModel {
         }
 
         @Override
-        public Object getItem(int position) {
+        public CampingEntity getItem(int position) {
             return items.get(position);
         }
 
@@ -253,7 +287,89 @@ public class SearchSystem extends AndroidViewModel {
             }
         }
 
+    }
 
+    class UploadItemAdapter extends BaseAdapter {
+        ArrayList<CampingEntity> uploadItems = new ArrayList<CampingEntity>();
+        Activity activity;
+
+        public void addItem(CampingEntity camp) {
+            uploadItems.add(camp);
+        }
+
+        @Override
+        public int getCount() {
+            return uploadItems.size();
+        }
+
+        @Override
+        public CampingEntity getItem(int position) {
+            return uploadItems.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            UploadItemView view = null;
+            if (convertView == null) {
+                view = new UploadItemView(context);
+            } else {
+                view = (UploadItemView) convertView;
+            }
+            CampingEntity item = uploadItems.get(position);
+            view.setTextName(item.getCampName());
+            Button delete = (Button) view.findViewById(R.id.camp_delete);
+            Button manage = (Button) view.findViewById(R.id.reservation_manage);
+
+            manage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, ManageReservationActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("CampingEntity", item);
+                    context.startActivity(intent);
+                }
+            });
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
+                    dialog.setMessage("삭제하시겠습니까?");
+                    dialog.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            deleteCamp(item, new Callback() {
+                                @Override
+                                public void onSuccess() {
+                                    Toast.makeText(context,"삭제되었습니다.",Toast.LENGTH_SHORT).show();
+                                    uploadItems.remove(item);
+                                    uploadItemAdapter.uploadItems = uploadItems;
+                                }
+
+                                @Override
+                                public void onFailure() {
+
+                                }
+                            });
+                        }
+                    });
+                    dialog.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    dialog.show();
+                }
+            });
+
+
+            return view;
+        }
     }
 
 
