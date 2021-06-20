@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.campingapp.databinding.ActivityCampInformationBinding;
@@ -43,6 +44,7 @@ public class UploadInformation extends AppCompatActivity {
     boolean parking;
     boolean water;
     boolean pickup;
+    ImageView imageView;
     ActivityUploadInformationBinding binding;
     Uri photoUri;
     int PICK_IMAGE_FROM_ALBUM = 0;
@@ -70,8 +72,6 @@ public class UploadInformation extends AppCompatActivity {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                                         if (isChecked) {
-                                            Toast.makeText(UploadInformation.this,
-                                                    items[which], Toast.LENGTH_SHORT).show();
                                             list.add(items[which]);
                                         } else {
                                             list.remove(items[which]);
@@ -141,17 +141,40 @@ public class UploadInformation extends AppCompatActivity {
                 ower = user.getUid();
                 addr = binding.uploadCampAddr.getText().toString();
                 phone = binding.uploadCampPhone.getText().toString();
-                price = Integer.parseInt(binding.uploadCampPrice.getText().toString());
-                addPrice = Integer.parseInt(binding.uploadAddPrice.getText().toString());
-                minPeople = Integer.parseInt(binding.peopleMin.getText().toString());
-                maxPeople = Integer.parseInt(binding.peopleMax.getText().toString());
-                if (name == null || addr == null || phone == null || price == 0 || addPrice==0 || minPeople ==0 || maxPeople ==0 ){
-                    Toast.makeText(UploadInformation.this,"값을 모두 입력해주세요.",Toast.LENGTH_SHORT).show();
-                }else {
-                    viewModel.uploadDB(name,ower,addr, phone, price, addPrice, minPeople, maxPeople, bbq, parking, pickup, water, wifi, photoUri);
+                try{
+                    price = Integer.parseInt(binding.uploadCampPrice.getText().toString());
+                }catch (Exception e){
+                    price = 0;
+                }
+                try{
+                    addPrice = Integer.parseInt(binding.uploadAddPrice.getText().toString());
+                }catch (Exception e){
+                    addPrice = 0;
+                }
+                try{
+                    minPeople = Integer.parseInt(binding.peopleMin.getText().toString());
+                }catch (Exception e){
+                    minPeople=0;
                 }
 
-                onBackPressed();
+                try{
+                    maxPeople = Integer.parseInt(binding.peopleMax.getText().toString());
+                }catch (Exception e){
+                    maxPeople=0;
+                }
+
+
+
+
+                if (name == null || addr == null || phone == null || price == 0 || addPrice==0 || minPeople ==0 || maxPeople ==0 ){
+                    Toast.makeText(UploadInformation.this,"값을 모두 입력해주세요.",Toast.LENGTH_SHORT).show();
+                }else if(photoUri == null){
+                    Toast.makeText(UploadInformation.this,"사진을 선택해 주세요",Toast.LENGTH_SHORT).show();
+                } else {
+                    viewModel.uploadDB(name,ower,addr, phone, price, addPrice, minPeople, maxPeople, bbq, parking, pickup, water, wifi, photoUri);
+                    onBackPressed();
+                }
+
             }
         });
 

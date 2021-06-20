@@ -40,7 +40,7 @@ public class CampInformationActivity extends AppCompatActivity {
         Intent intent = getIntent();
         ReviewAdapter adapter10 = new ReviewAdapter();
         camp = (CampingEntity) intent.getSerializableExtra("CampingEntity");
-
+        camp.setRating(Math.round(camp.getRating()*100)/100.0);
         if (camp == null) {
 
 

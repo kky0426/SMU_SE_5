@@ -79,7 +79,7 @@ public class SearchSystem extends AndroidViewModel {
         user = auth.getCurrentUser();
         mDatabase=FirebaseDatabase.getInstance("https://smu-se5-camping-default-rtdb.firebaseio.com/").getReference();
         storage= FirebaseStorage.getInstance().getReferenceFromUrl("gs://smu-se5-camping.appspot.com");
-        mDatabase.child("camp").addValueEventListener(new ValueEventListener() {
+        mDatabase.child("camp").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot dSnap : dataSnapshot.getChildren()){
@@ -233,7 +233,7 @@ public class SearchSystem extends AndroidViewModel {
             CampingEntity item = items.get(position);
             view.setTextName(item.getCampName());
             view.setTextReview(item.getReview());
-            view.setTextRating(item.getRating());
+            view.setTextRating(Math.round(item.getRating()*100)/100.0);
             view.setTextPrice(item.getPrice());
             if (item.getPhotoUri()!=null){
                 view.setCampImage(context,item.getPhotoUri());
@@ -346,8 +346,9 @@ public class SearchSystem extends AndroidViewModel {
                                 @Override
                                 public void onSuccess() {
                                     Toast.makeText(context,"삭제되었습니다.",Toast.LENGTH_SHORT).show();
-                                    uploadItems.remove(item);
+                                    uploadItems.remove(position);
                                     uploadItemAdapter.uploadItems = uploadItems;
+                                    uploadItemAdapter.notifyDataSetChanged();
                                 }
 
                                 @Override
