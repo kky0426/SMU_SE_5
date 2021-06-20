@@ -74,16 +74,21 @@ public class SignUpActivity extends AppCompatActivity {
                         } else {
                             Toast.makeText(SignUpActivity.this, "회원가입 실패", Toast.LENGTH_SHORT).show();
                         }
-
-                    }else if (radioBusiness.isChecked()){
-                        if(loginSystem.SignUpUser(name,email,password,business)){
-                            Toast.makeText(SignUpActivity.this, "회원가입 성공", Toast.LENGTH_SHORT).show();
-                        }else{
-                            Toast.makeText(SignUpActivity.this, "회원가입 실패", Toast.LENGTH_SHORT).show();
-                        }
                         onBackPressed();
+                    }else if (radioBusiness.isChecked()){
+                        if (business.isEmpty()){
+                            Toast.makeText(SignUpActivity.this,"사업자 번호를 입력해주세요.",Toast.LENGTH_SHORT).show();
+                        }else{
+                            if(loginSystem.SignUpUser(name,email,password,business)){
+                                Toast.makeText(SignUpActivity.this, "회원가입 성공", Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(SignUpActivity.this, "회원가입 실패", Toast.LENGTH_SHORT).show();
+                            }
+                            onBackPressed();
+                        }
+
                     }
-                    onBackPressed();
+
                 }
 
             }
