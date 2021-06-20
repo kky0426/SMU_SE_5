@@ -38,13 +38,19 @@ public class LoginActivity extends AppCompatActivity {
                 String email = binding.emailEdit.getText().toString();
                 String password = binding.passwordEdit.getText().toString();
                 LoginSystem loginSystem = new LoginSystem();
-                FirebaseUser user = loginSystem.Login(email,password);
-                if (user!=null){
-                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                    startActivity(intent);
-                }else{
-                    Toast.makeText(LoginActivity.this,"로그인 실패",Toast.LENGTH_LONG).show();
-                }
+                loginSystem.Login(email, password, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        Toast.makeText(LoginActivity.this,"로그인 성공",Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        Toast.makeText(LoginActivity.this,"아이디가 없거나 비밀번호 오류입니다.",Toast.LENGTH_SHORT).show();
+                    }
+                });
 
             }
         });
