@@ -22,6 +22,12 @@
 
 [![Video Label]( https://img.youtube.com/vi/UR5k7RS6YCY/0.jpg)](https://www.youtube.com/watch?v=UR5k7RS6YCY)
 
+
+#### 기말 발표
+#####
+
+##### https://www.youtube.com/watch?v=1MZO-srb6jM 프로젝트 기말발표 제작영상(중간 발표와 마찬가지로 GITHUB 업로드 제한으로 인해 스트리밍 사이트를 이용하였습니다.)
+[![Video Label]( https://i.ytimg.com/vi/1MZO-srb6jM/original.jpg)](https://www.youtube.com/watch?v=1MZO-srb6jM)
 ## App 화면 
 
 ### 로그인 & 회원가입 페이지
