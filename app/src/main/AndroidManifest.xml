@@ -13,22 +13,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CampingApp">
-        <activity android:name=".ManageReservationActivity"></activity>
-        <activity android:name=".UploadedCampActivity" />
-        <activity android:name=".SignUpActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".reservation.ManageReservationActivity"></activity>
+        <activity android:name=".upload.UploadedCampActivity" />
+        <activity android:name=".login.SignUpActivity" />
+        <activity android:name=".login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ReservationActivity" />
-        <activity android:name=".UploadInformation" />
-        <activity android:name=".ConfirmReservationActivity" />
-        <activity android:name=".CampInformationActivity" />
-        <activity android:name=".WritingReview" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".reservation.ReservationActivity" />
+        <activity android:name=".upload.UploadInformation" />
+        <activity android:name=".reservation.ConfirmReservationActivity" />
+        <activity android:name=".reservation.CampInformationActivity" />
+        <activity android:name=".review.WritingReview" />
+        <activity android:name=".home.MainActivity" />
     </application>
 
 </manifest>
